@@ -11,7 +11,7 @@ hsync
 ## install
 
 ```
-go get -u github.com/hidu/hsync
+go get -u github.com/ketor/hsync
 ```
 
 

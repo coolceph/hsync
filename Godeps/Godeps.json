@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/hidu/hsync",
+	"ImportPath": "github.com/ketor/hsync",
 	"GoVersion": "go1.7",
 	"GodepVersion": "v74",
 	"Deps": [
