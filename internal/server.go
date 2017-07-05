@@ -3,7 +3,6 @@ package internal
 import (
 	"bytes"
 	"fmt"
-	"github.com/golang/glog"
 	"net"
 	"net/http"
 	"net/rpc"
@@ -11,6 +10,8 @@ import (
 	"os/exec"
 	"regexp"
 	"strings"
+
+	"github.com/golang/glog"
 )
 
 type HsyncServer struct {
@@ -35,6 +36,19 @@ func NewHsyncServer(confName string) (*HsyncServer, error) {
 	}
 	reg := regexp.MustCompile(`\s+`)
 	server.deployCmdArgs = reg.Split(strings.TrimSpace(conf.DeployCmd), -1)
+	return server, nil
+}
+
+func NewSimpleHsyncServer(addr string) (*HsyncServer, error) {
+	conf, err := GenerateSimpleServerConf(addr)
+	if err != nil {
+		return nil, err
+	}
+	pwd, _ := os.Getwd()
+	glog.Infoln("cwd:", pwd)
+	server := &HsyncServer{
+		conf: conf,
+	}
 	return server, nil
 }
 

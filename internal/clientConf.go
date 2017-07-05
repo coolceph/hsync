@@ -3,9 +3,11 @@ package internal
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/golang/glog"
+	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/golang/glog"
 )
 
 type ClientConf struct {
@@ -70,6 +72,31 @@ func LoadClientConf(name string) (conf *ClientConf, err error) {
 	} else {
 		glog.V(2).Info("load conf [", name, "]suc,", conf)
 	}
+
+	glog.Info("conf.Home = ", conf.Home)
+	glog.Info("conf.Ignore= ", conf.Ignore)
+	glog.Info("conf.Allow= ", conf.Allow)
+	glog.Info("conf.ignoreCr= ", conf.ignoreCr)
+	return
+}
+
+func GenerateSimpleClientConf(addr string) (conf *ClientConf, err error) {
+
+	conf = new(ClientConf)
+	conf.Hosts = make(map[string](*ServerHost))
+	var host = new(ServerHost)
+	host.Host = addr
+	host.Token = "simple"
+	conf.Hosts["default"] = host
+
+	pwd, _ := os.Getwd()
+	conf.Home = pwd
+	conf.ConfDir = pwd
+	conf.Ignore = make([]string, 0)
+	conf.Allow = make([]string, 0)
+	conf.ignoreCr = new(ConfRegexp)
+
+	glog.Info("conf.Home = ", conf.Home)
 
 	return
 }

@@ -3,8 +3,6 @@ package internal
 import (
 	"flag"
 	"fmt"
-	"github.com/golang/glog"
-	"gopkg.in/fsnotify.v1"
 	"net/rpc"
 	"os"
 	"path/filepath"
@@ -12,6 +10,9 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/golang/glog"
+	"gopkg.in/fsnotify.v1"
 )
 
 type HsyncClient struct {
@@ -77,6 +78,24 @@ func NewHsyncClient(confName string, hostName string) (*HsyncClient, error) {
 	if hs.remoteHost == nil || hs.remoteHost.Host == "" {
 		glog.Exitln("remote host empty:", hs.remoteHost)
 	}
+	glog.Info("conf.ServerHost = ", conf.Hosts["default"])
+	return hs, nil
+}
+
+func NewSimpleHsyncClient(addr string) (*HsyncClient, error) {
+	conf, err := GenerateSimpleClientConf(addr)
+	if err != nil {
+		return nil, err
+	}
+	hs := &HsyncClient{
+		conf:         conf,
+		clientEvents: make([]*ClientEvent, 0),
+	}
+	hs.remoteHost = conf.Hosts["default"]
+	if hs.remoteHost == nil || hs.remoteHost.Host == "" {
+		glog.Exitln("remote host empty:", hs.remoteHost)
+	}
+	glog.Info("remoteHost is ", hs.remoteHost.Host)
 	return hs, nil
 }
 

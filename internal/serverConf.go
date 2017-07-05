@@ -3,9 +3,11 @@ package internal
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/golang/glog"
+	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/golang/glog"
 )
 
 type ServerConf struct {
@@ -35,6 +37,8 @@ func LoadServerConf(name string) (conf *ServerConf, err error) {
 		conf.Home = filepath.Clean(conf.Home)
 		conf.DeployCmd = strings.TrimSpace(strings.Replace(conf.DeployCmd, "{pwd}", conf.ConfDir, -1))
 		conf.init()
+
+		glog.Info("conf.Home = ", conf.Home)
 	}
 	if err == nil {
 		if conf.Addr == "" {
@@ -47,6 +51,17 @@ func LoadServerConf(name string) (conf *ServerConf, err error) {
 		glog.V(2).Info("load conf [", name, "]suc,", conf)
 	}
 
+	return
+}
+
+func GenerateSimpleServerConf(addr string) (conf *ServerConf, err error) {
+	conf = new(ServerConf)
+	conf.Addr = addr
+	pwd, _ := os.Getwd()
+	conf.Home = pwd
+	conf.Token = "simple"
+	conf.init()
+	glog.Info("conf.Home = ", conf.Home)
 	return
 }
 
