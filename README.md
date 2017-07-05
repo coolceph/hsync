@@ -16,6 +16,17 @@ go get -u github.com/coolceph/hsync
 
 
 ## useage
+
+### 简单用法
+
+启动Server
+
+>hsync -s :8700
+
+启动Client
+
+>hsync -c 127.0.0.1:8700
+
 ### server:
 >hsync -d hsyncd.json
 
