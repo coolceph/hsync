@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/ketor/hsync",
+	"ImportPath": "github.com/coolceph/hsync",
 	"GoVersion": "go1.7",
 	"GodepVersion": "v74",
 	"Deps": [

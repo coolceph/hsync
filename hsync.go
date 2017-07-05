@@ -11,8 +11,8 @@ import (
 	"fmt"
 	"os"
 
+	hsync "github.com/coolceph/hsync/internal"
 	"github.com/golang/glog"
-	hsync "github.com/ketor/hsync/internal"
 )
 
 var d = flag.Bool("d", false, "run model,defaul is client")
@@ -32,7 +32,7 @@ func init() {
 	df := flag.Usage
 	flag.Usage = func() {
 		df()
-		fmt.Fprintln(os.Stderr, "\n  sync dir, https://github.com/ketor/hsync/")
+		fmt.Fprintln(os.Stderr, "\n  sync dir, https://github.com/coolceph/hsync/")
 		fmt.Fprintln(os.Stderr, "  as client:", os.Args[0], "   [hsync.json]")
 		fmt.Fprintln(os.Stderr, "  as server:", os.Args[0], "-d [hsyncd.json]")
 		fmt.Fprintln(os.Stderr, "\nSimple Usage:")
